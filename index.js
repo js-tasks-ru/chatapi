@@ -23,7 +23,7 @@ function findUser(login) {
 
     return new Promise((resolve, reject) => {
 
-        users.findOne({login: body.login}, (err, user) => {
+        users.findOne({ login }, (err, user) => {
 
             if (err) {
                 reject(err);
@@ -79,9 +79,6 @@ router.post('/users/signup', koaBody(), async ctx => {
 
 
     ctx.body = {status: 'ok', body: ctx.request.body};
-
-
-
 });
 
 router.get('/users', (ctx, next) => {
