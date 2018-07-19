@@ -1,0 +1,22 @@
+{
+  "name": "chatapi",
+  "version": "0.1.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/js-tasks-ru/chatapi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/js-tasks-ru/chatapi/issues"
+  },
+  "homepage": "https://github.com/js-tasks-ru/chatapi#readme",
+  "dependencies": {
+    "koa": "^2.5.2"
+  }
+}
