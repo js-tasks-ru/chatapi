@@ -14,7 +14,7 @@ const router = new Router();
 // WSS /chat
 
 router.post('/users/signup', koaBody(), async ctx => {
-    let body = ctx.request.body;
+    let body = JSON.stringify(ctx.request.body || '{}');
     let isError = false;
     let result = {};
 
