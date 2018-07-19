@@ -59,12 +59,12 @@ function addUser(user) {
 function getAllUsers() {
     return new Promise((resolve, reject) => {
 
-        users.find({}, (err, user) => {
+        users.find({}, (err, users) => {
 
             if (err) {
                 reject(err);
             } else {
-                resolve(user)
+                resolve(users)
             }
 
         });
@@ -124,9 +124,9 @@ router.get('/users', async ctx => {
     if (cache[ctx.request.headers.authorization]) {
         let users = await getAllUsers();
 
-        users = Array.from(users);
-
         console.log(users);
+
+        users = Array.from(users);
 
         ctx.body = users.map(user => {
             console.log(user);
