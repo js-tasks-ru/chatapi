@@ -44,6 +44,8 @@ router.post('/users/signup', koaBody(), (ctx, next) => {
         isError = true;
     }
 
+    console.log(2134);
+
     users.findOne({login: body.login}, (err, exist) => {
 
         if (exist) {
@@ -78,5 +80,4 @@ app
         ctx.body = 'Use api methods please';
     });
 
-console.log('started at', process.env);
 app.listen(process.env.PORT || 3000);
