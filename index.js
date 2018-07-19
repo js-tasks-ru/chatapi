@@ -21,9 +21,16 @@ let cache = {};
 const db = new Db(__dirname, {});
 const users = db.collection("users");
 
-function findUser(login) {
+function findUser(login, password) {
 
     return new Promise((resolve, reject) => {
+        let query = {
+            login
+        };
+
+        if (password) {
+            query.password = password;
+        }
 
         users.findOne({ login }, (err, user) => {
 
@@ -123,6 +130,41 @@ router.post('/users/signup', koaBody(), async ctx => {
 
     cache[uid] = true;
     ctx.body = {status: 'ok', userId: result._id, auth: uid};
+});
+
+router.post('/users/login', koaBody(), async ctx => {
+    let body = JSON.parse(ctx.request.body || '{}' );
+    let isError = false;
+    let result = {};
+
+    if (!body.login) {
+        result.login = 'required';
+        isError = true;
+    }
+
+    if (!body.password) {
+        result.password = 'required';
+        isError = true;
+    }
+
+    if (isError) {
+        ctx.status = 400;
+        ctx.body = result;
+        return;
+    }
+
+    let user = await findUser(body.login, body.password);
+
+    if (!user) {
+        ctx.status = 401;
+        ctx.body = '';
+        return;
+    }
+
+    let uid = uuid62.v4();
+
+    cache[uid] = true;
+    ctx.body = {status: 'ok', userId: user._id, auth: uid};
 });
 
 router.get('/users', async ctx => {
