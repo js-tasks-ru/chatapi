@@ -62,7 +62,7 @@ router.post('/users/signup', koaBody(), async ctx => {
         isError = true;
     }
 
-    let exist = findUser(body.login);
+    let exist = await findUser(body.login);
 
     console.log(exist);
 
