@@ -20,8 +20,6 @@ let cache = {};
 const db = new Db(__dirname, {});
 const users = db.collection("users");
 
-users.findOne = promisify(users.findOne);
-
 router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
     let isError = false;
@@ -47,23 +45,24 @@ router.post('/users/signup', koaBody(), async ctx => {
         isError = true;
     }
 
-    let exist = await users.findOne({login: body.login});
+    users.findOne({login: body.login}, (err, exist) => {
 
-    console.log(exist)
+        if (exist) {
+            result.password = 'used';
+            isError = true;
+        }
 
-    if (exist) {
-        result.password = 'used';
-        isError = true;
-    }
-
-    if (isError) {
-        ctx.status = 400;
-        ctx.body = result;
-        return;
-    }
+        if (isError) {
+            ctx.status = 400;
+            ctx.body = result;
+            return;
+        }
 
 
-    ctx.body = {status: 'ok', body: ctx.request.body};
+        ctx.body = {status: 'ok', body: ctx.request.body};
+    });
+
+
 });
 
 router.get('/users', (ctx, next) => {
