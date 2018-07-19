@@ -18,7 +18,9 @@ const router = new Router();
 let cache = {};
 const db = new Db(__dirname, {});
 
-const users = promisify.some(db.collection("users"), ['findAll', 'find', 'insert']);
+const users = db.collection("users");
+
+users.findAll = promisify(users.findAll);
 
 router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
