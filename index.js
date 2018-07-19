@@ -98,7 +98,7 @@ router.post('/users/signup', koaBody(), async ctx => {
         password: body.password
     });
 
-    ctx.body = {status: 'ok', userId: result.id};
+    ctx.body = {status: 'ok', userId: result._id};
 });
 
 router.get('/users', (ctx, next) => {
