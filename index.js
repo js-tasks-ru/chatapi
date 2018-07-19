@@ -1,7 +1,7 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const cors = require('@koa/cors');
-const bodyParser = require('koa-bodyparser');
+const koaBody = require('koa-body');
 
 const app = new Koa();
 const router = new Router();
@@ -14,7 +14,7 @@ const router = new Router();
 // WSS /chat
 
 
-router.post('/users/login', bodyParser(), async ctx => {
+router.post('/users/login', koaBody(), async ctx => {
     ctx.body = {status: 'ok', body: ctx.request.body};
 });
 
