@@ -2,7 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body');
-const Db = require('tingodb');
+const Db = require('tingodb')().Db;
 
 const app = new Koa();
 const router = new Router();
