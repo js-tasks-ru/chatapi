@@ -122,7 +122,14 @@ router.post('/users/signup', koaBody(), async ctx => {
 
 router.get('/users', async ctx => {
     if (cache[ctx.request.headers.authorization]) {
-        ctx.body = await getAllUsers();
+        let users = await getAllUsers();
+
+        ctx.body = users.map(user => {
+            console.log(user);
+            return {
+                login: user.login
+            };
+        });
     } else {
         ctx.status = 403;
         ctx.body = '';
