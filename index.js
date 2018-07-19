@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body');
 const Db = require('tingodb')().Db;
+const uuid62 = require('uuid62');
 
 const app = new Koa();
 const router = new Router();
@@ -98,11 +99,14 @@ router.post('/users/signup', koaBody(), async ctx => {
         password: body.password
     });
 
-    ctx.body = {status: 'ok', userId: result._id};
+    let uid = uuid62.v4();
+
+    cache[uid] = true;
+    ctx.body = {status: 'ok', userId: result._id, auth: uid};
 });
 
 router.get('/users', (ctx, next) => {
-    ctx.body = JSON.stringify([{name: 'ilia'}]);
+   console.log(ctx.request.headers);
 });
 
 app
