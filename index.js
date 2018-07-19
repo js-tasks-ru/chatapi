@@ -14,7 +14,7 @@ const router = new Router();
 // WSS /chat
 
 
-router.post('/users/login', async ctx => {
+router.post('/users/login', bodyParser(), async ctx => {
     ctx.body = {status: 'ok', body: ctx.request.body};
 });
 
@@ -23,7 +23,6 @@ router.get('/users', (ctx, next) => {
 });
 
 app
-    .use(bodyParser())
     .use(cors())
     .use(router.routes())
     .use(router.allowedMethods())
