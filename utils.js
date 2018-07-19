@@ -39,6 +39,7 @@ exports.promisify = function (fn) {
                 args.push(createCallback(exports.noop, resolve, reject));
             }
 
+            console.log(12344231, args);
             fn.apply(this, args);
         });
 
