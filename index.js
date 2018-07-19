@@ -18,6 +18,8 @@ router.post('/users/signup', koaBody(), async ctx => {
     let isError = false;
     let result = {};
 
+    console.log(body);
+
     if (!body.login) {
         result.login = 'required';
         isError = true;
