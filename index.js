@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const cors = require('@koa/cors');
+const bodyParser = require('koa-bodyparser');
 
 const app = new Koa();
 const router = new Router();
@@ -14,7 +15,8 @@ const router = new Router();
 
 
 router.post('/users/login', async ctx => {
-    console.log(ctx);
+    console.log(ctx.request.body);
+    ctx.body = {status: 'ok'};
 });
 
 router.get('/users', (ctx, next) => {
@@ -22,6 +24,7 @@ router.get('/users', (ctx, next) => {
 });
 
 app
+    .use(bodyParser())
     .use(cors())
     .use(router.routes())
     .use(router.allowedMethods())
