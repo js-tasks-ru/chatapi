@@ -3,7 +3,7 @@ const Router = require('koa-router');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body');
 const Db = require('tingodb')().Db;
-const promisify = require('utils').promisify;
+const promisify = require('./utils').promisify;
 
 const app = new Koa();
 const router = new Router();
