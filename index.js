@@ -59,7 +59,7 @@ function addUser(user) {
 function getAllUsers() {
     return new Promise((resolve, reject) => {
 
-        users.find({}, (err, result) => {
+        users.find().toArray((err, result) => {
 
             if (err) {
                 reject(err);
