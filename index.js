@@ -46,7 +46,7 @@ function addUser(user) {
             if (err) {
                 reject(err);
             } else {
-                resolve(result)
+                resolve(result[0])
             }
 
 
@@ -98,7 +98,7 @@ router.post('/users/signup', koaBody(), async ctx => {
         password: body.password
     });
 
-    ctx.body = {status: 'ok', result};
+    ctx.body = {status: 'ok', userId: result.id};
 });
 
 router.get('/users', (ctx, next) => {
