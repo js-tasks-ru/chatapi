@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const Router = require('koa-router');
+const cors = require('@koa/cors');
 
 const app = new Koa();
 const router = new Router();
@@ -15,8 +16,8 @@ router.get('/users', (ctx, next) => {
     ctx.body = JSON.stringify([{name: 'ilia'}]);
 });
 
-
 app
+    .use(cors())
     .use(router.routes())
     .use(router.allowedMethods())
     .use(async ctx => {
