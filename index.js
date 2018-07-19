@@ -4,6 +4,7 @@ const cors = require('@koa/cors');
 const koaBody = require('koa-body');
 const Db = require('tingodb')().Db;
 const uuid62 = require('uuid62');
+const imgGen = require('@dudadev/random-img');
 
 const app = new Koa();
 const router = new Router();
@@ -109,10 +110,14 @@ router.post('/users/signup', koaBody(), async ctx => {
         return;
     }
 
+    let avatar = await imgGen({ id: body.login });
+
     result = await addUser({
         login: body.login,
-        password: body.password
+        password: body.password,
+        avatar
     });
+
 
     let uid = uuid62.v4();
 
