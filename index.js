@@ -37,6 +37,24 @@ function findUser(login) {
 
 }
 
+function addUser(user) {
+
+    return new Promise((resolve, reject) => {
+
+        users.insert(user, (err, result) => {
+
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result)
+            }
+
+
+        });
+    })
+
+}
+
 router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
     let isError = false;
@@ -64,8 +82,6 @@ router.post('/users/signup', koaBody(), async ctx => {
 
     let exist = await findUser(body.login);
 
-    console.log(exist);
-
     if (exist) {
         result.password = 'used';
         isError = true;
@@ -77,8 +93,12 @@ router.post('/users/signup', koaBody(), async ctx => {
         return;
     }
 
+    let result = await addUser({
+        login: body.login,
+        password: body.password
+    });
 
-    ctx.body = {status: 'ok', body: ctx.request.body};
+    ctx.body = {status: 'ok', result};
 });
 
 router.get('/users', (ctx, next) => {
