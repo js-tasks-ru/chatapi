@@ -17,10 +17,7 @@ const router = new Router();
 
 let cache = {};
 const db = new Db(__dirname, {});
-
 const users = db.collection("users");
-
-users.findAll = promisify(users.findAll);
 
 router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
@@ -47,7 +44,7 @@ router.post('/users/signup', koaBody(), async ctx => {
         isError = true;
     }
 
-    let exist = await users.findOne({login: body.login});
+    let exist = await promisify(users.findOne({login: body.login}));
 
     console.log(exist)
 
