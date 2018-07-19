@@ -56,6 +56,21 @@ function addUser(user) {
 
 }
 
+function getAllUsers() {
+    return new Promise((resolve, reject) => {
+
+        users.find({}, (err, user) => {
+
+            if (err) {
+                reject(err);
+            } else {
+                resolve(user)
+            }
+
+        });
+    });
+}
+
 router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
     let isError = false;
@@ -105,8 +120,13 @@ router.post('/users/signup', koaBody(), async ctx => {
     ctx.body = {status: 'ok', userId: result._id, auth: uid};
 });
 
-router.get('/users', (ctx, next) => {
-   console.log(ctx.request.headers);
+router.get('/users', async ctx => {
+    if (cache[ctx.request.headers.authorization]) {
+        ctx.body = await getAllUsers();
+    } else {
+        ctx.status = 403;
+        ctx.body = '';
+    }
 });
 
 app
