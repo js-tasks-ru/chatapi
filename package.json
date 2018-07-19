@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/js-tasks-ru/chatapi#readme",
   "dependencies": {
-    "koa": "^2.5.2"
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0"
   }
 }
