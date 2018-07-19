@@ -19,7 +19,25 @@ let cache = {};
 const db = new Db(__dirname, {});
 const users = db.collection("users");
 
-router.post('/users/signup', koaBody(), (ctx, next) => {
+function findUser(login) {
+
+    return new Promise((resolve, reject) => {
+
+        users.findOne({login: body.login}, (err, user) => {
+
+            if (err) {
+                reject(err);
+            } else {
+                resolve(user)
+            }
+
+
+        });
+    })
+
+}
+
+router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
     let isError = false;
     let result = {};
@@ -44,26 +62,24 @@ router.post('/users/signup', koaBody(), (ctx, next) => {
         isError = true;
     }
 
-    console.log(2134);
+    let exist = findUser(body.login);
 
-    users.findOne({login: body.login}, (err, exist) => {
+    console.log(exist);
 
-        if (exist) {
-            result.password = 'used';
-            isError = true;
-        }
+    if (exist) {
+        result.password = 'used';
+        isError = true;
+    }
 
-        if (isError) {
-            ctx.status = 400;
-            ctx.body = result;
-            next();
-            return;
-        }
+    if (isError) {
+        ctx.status = 400;
+        ctx.body = result;
+        return;
+    }
 
 
-        ctx.body = {status: 'ok', body: ctx.request.body};
-        next();
-    });
+    ctx.body = {status: 'ok', body: ctx.request.body};
+
 
 
 });
