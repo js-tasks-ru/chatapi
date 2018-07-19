@@ -3,7 +3,7 @@ const Router = require('koa-router');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body');
 const Db = require('tingodb')().Db;
-const promisify = require('@octetstream/promisify');
+const promisify = require('utils').promisify;
 
 const app = new Koa();
 const router = new Router();
@@ -16,8 +16,11 @@ const router = new Router();
 // WSS /chat
 
 let cache = {};
+
 const db = new Db(__dirname, {});
 const users = db.collection("users");
+
+users.findOne = promisify(users.findOne);
 
 router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
@@ -44,7 +47,7 @@ router.post('/users/signup', koaBody(), async ctx => {
         isError = true;
     }
 
-    let exist = await promisify(users.findOne({login: body.login}));
+    let exist = await users.findOne({login: body.login});
 
     console.log(exist)
 
