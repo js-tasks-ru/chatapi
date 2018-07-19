@@ -64,7 +64,7 @@ function getAllUsers() {
             if (err) {
                 reject(err);
             } else {
-                resolve(result._store)
+                resolve(result)
             }
 
         });
