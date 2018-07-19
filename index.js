@@ -15,7 +15,7 @@ const router = new Router();
 
 
 router.post('/users/login', async ctx => {
-    console.log(ctx.request.body);
+    console.log(ctx.request);
     ctx.body = {status: 'ok'};
 });
 
