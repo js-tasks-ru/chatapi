@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body');
+const Db = require('tingodb');
 
 const app = new Koa();
 const router = new Router();
@@ -13,12 +14,15 @@ const router = new Router();
 // GET /users
 // WSS /chat
 
+let cache = {};
+const db = new Db(__dirname, {});
+
+const users = db.collection("users");
+
 router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
     let isError = false;
     let result = {};
-
-    console.log(body);
 
     if (!body.login) {
         result.login = 'required';
@@ -40,11 +44,21 @@ router.post('/users/signup', koaBody(), async ctx => {
         isError = true;
     }
 
+    let exist = await users.findOne({login: body.login});
+
+    console.log(exist)
+
+    if (exist) {
+        result.password = 'used';
+        isError = true;
+    }
+
     if (isError) {
         ctx.status = 400;
         ctx.body = result;
         return;
     }
+
 
     ctx.body = {status: 'ok', body: ctx.request.body};
 });
