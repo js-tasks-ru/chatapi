@@ -17,14 +17,14 @@ const router = new Router();
 router.post('/users/login', koaBody(), async ctx => {
     let body = ctx.request.body;
     let isError = false;
-    let result = {}
+    let result = {};
 
-    if (body.login) {
+    if (!body.login) {
         result.login = 'required';
         isError = true;
     }
 
-    if (body.password) {
+    if (!body.password) {
         result.password = 'required';
         isError = true;
     }
