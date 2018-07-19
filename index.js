@@ -124,6 +124,8 @@ router.get('/users', async ctx => {
     if (cache[ctx.request.headers.authorization]) {
         let users = await getAllUsers();
 
+        users = Array.from(users);
+
         console.log(users);
 
         ctx.body = users.map(user => {
