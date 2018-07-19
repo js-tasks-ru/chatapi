@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body');
 const Db = require('tingodb')().Db;
+const promisify = require('@octetstream/promisify');
 
 const app = new Koa();
 const router = new Router();
@@ -17,7 +18,7 @@ const router = new Router();
 let cache = {};
 const db = new Db(__dirname, {});
 
-const users = db.collection("users");
+const users = promisify.all(db.collection("users"));
 
 router.post('/users/signup', koaBody(), async ctx => {
     let body = JSON.parse(ctx.request.body || '{}' );
