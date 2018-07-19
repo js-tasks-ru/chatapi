@@ -19,7 +19,7 @@ let cache = {};
 const db = new Db(__dirname, {});
 const users = db.collection("users");
 
-router.post('/users/signup', koaBody(), async ctx => {
+router.post('/users/signup', koaBody(), (ctx, next) => {
     let body = JSON.parse(ctx.request.body || '{}' );
     let isError = false;
     let result = {};
@@ -54,11 +54,13 @@ router.post('/users/signup', koaBody(), async ctx => {
         if (isError) {
             ctx.status = 400;
             ctx.body = result;
+            next();
             return;
         }
 
 
         ctx.body = {status: 'ok', body: ctx.request.body};
+        next();
     });
 
 
