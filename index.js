@@ -59,12 +59,12 @@ function addUser(user) {
 function getAllUsers() {
     return new Promise((resolve, reject) => {
 
-        users.find({}, (err, users) => {
+        users.find({}, (err, result) => {
 
             if (err) {
                 reject(err);
             } else {
-                resolve(users)
+                resolve(result._store)
             }
 
         });
