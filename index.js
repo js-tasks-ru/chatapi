@@ -8,9 +8,14 @@ const router = new Router();
 // POST /signup
 // POST /sigin
 // GET /messages
+// POST /messages { text: sdafads, author: 12345 }
 // GET /users
 // WSS /chat
 
+
+router.post('/users/login', async ctx => {
+    console.log(ctx);
+});
 
 router.get('/users', (ctx, next) => {
     ctx.body = JSON.stringify([{name: 'ilia'}]);
