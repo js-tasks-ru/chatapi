@@ -93,7 +93,7 @@ router.post('/users/signup', koaBody(), async ctx => {
         return;
     }
 
-    let result = await addUser({
+    result = await addUser({
         login: body.login,
         password: body.password
     });
