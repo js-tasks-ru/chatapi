@@ -13,8 +13,7 @@ const router = new Router();
 // GET /users
 // WSS /chat
 
-
-router.post('/users/login', koaBody(), async ctx => {
+router.post('/users/signup', koaBody(), async ctx => {
     let body = ctx.request.body;
     let isError = false;
     let result = {};
@@ -26,6 +25,16 @@ router.post('/users/login', koaBody(), async ctx => {
 
     if (!body.password) {
         result.password = 'required';
+        isError = true;
+    }
+
+    if (!body.passwordRepeat) {
+        result.passwordRepeat = 'required';
+        isError = true;
+    }
+
+    if (body.passwordRepeat !== body.password) {
+        result.passwordRepeat = 'not-equal';
         isError = true;
     }
 
