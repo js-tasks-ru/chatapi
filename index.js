@@ -15,8 +15,7 @@ const router = new Router();
 
 
 router.post('/users/login', async ctx => {
-    console.log(ctx.request);
-    ctx.body = {status: 'ok'};
+    ctx.body = {status: 'ok', body: ctx.request.body};
 });
 
 router.get('/users', (ctx, next) => {
